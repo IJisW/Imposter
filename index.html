@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Imposter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
 
+  .screen {
+    display: none;
+    padding: 40px;
+  }
+
+  .active {
+    display: block;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  .big {
+    font-size: 64px;
+    margin: 30px 0;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  input[type="range"] {
+    width: 200px;
+  }
+</style>
+</head>
+<body>
+
+<!-- TITLE SCREEN -->
+<div id="title" class="screen active">
+  <h1>IMPOSTER</h1>
+  <p>Players: <span id="playerCount">3</span></p>
+  <input type="range" min="3" max="10" value="3" id="playerSlider">
+  <br><br>
+  <button onclick="startGame()">Start Game</button>
+</div>
+
+<!-- GAME START COUNTDOWN -->
+<div id="startCountdown" class="screen">
+  <h1>Game Starting</h1>
+  <div class="big" id="startTimer">10</div>
+</div>
+
+<!-- PASS SCREEN -->
+<div id="passScreen" class="screen">
+  <h1>Pass to Player <span id="playerNum"></span></h1>
+  <button onclick="showRole()">Reveal</button>
+</div>
+
+<!-- ROLE SCREEN -->
+<div id="roleScreen" class="screen">
+  <div class="big" id="roleText"></div>
+  <p>Memorize!</p>
+  <div id="roleTimer">5</div>
+</div>
+
+<script>
+const words = [
+  "Pizza", "Beach", "School", "Zoo",
+  "Hospital", "Jungle", "Airport",
+  "Museum", "Park", "Restaurant"
+];
+
+let players = 3;
+let imposterIndex;
+let word;
+let currentPlayer = 0;
+let revealTimer;
+
+const slider = document.getElementById("playerSlider");
+slider.oninput = () => {
+  document.getElementById("playerCount").textContent = slider.value;
+};
+
+function startGame() {
+  players = Number(slider.value);
+  imposterIndex = Math.floor(Math.random() * players);
+  word = words[Math.floor(Math.random() * words.length)];
+  currentPlayer = 0;
+
+  showScreen("startCountdown");
+  startCountdown(10, () => {
+    nextPlayer();
+  });
+}
+
+function nextPlayer() {
+  if (currentPlayer >= players) {
+    showScreen("title");
+    return;
+  }
+
+  document.getElementById("playerNum").textContent = currentPlayer + 1;
+  showScreen("passScreen");
+}
+
+function showRole() {
+  showScreen("roleScreen");
+
+  const roleText = document.getElementById("roleText");
+  roleText.textContent =
+    currentPlayer === imposterIndex ? "IMPOSTER" : word;
+
+  let time = 5;
+  document.getElementById("roleTimer").textContent = time;
+
+  revealTimer = setInterval(() => {
+    time--;
+    document.getElementById("roleTimer").textContent = time;
+
+    if (time === 0) {
+      clearInterval(revealTimer);
+      currentPlayer++;
+      nextPlayer();
+    }
+  }, 1000);
+}
+
+function startCountdown(seconds, callback) {
+  let time = seconds;
+  document.getElementById("startTimer").textContent = time;
+
+  const interval = setInterval(() => {
+    time--;
+    document.getElementById("startTimer").textContent = time;
+
+    if (time === 0) {
+      clearInterval(interval);
+      callback();
+    }
+  }, 1000);
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+</script>
+
+</body>
+</html>
