@@ -11,9 +11,7 @@
   --accent:#ff3b3b;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box; }
 
 body{
   margin:0;
@@ -77,7 +75,6 @@ input[type="range"]{
 
 <body>
 
-<!-- TITLE SCREEN -->
 <div id="title" class="screen active">
   <h1>IMPOSTER</h1>
   <p>Players: <span id="playerCount">3</span></p>
@@ -85,20 +82,17 @@ input[type="range"]{
   <button onclick="startGame()">START</button>
 </div>
 
-<!-- START COUNTDOWN -->
 <div id="startCountdown" class="screen">
   <h1>Starting In</h1>
   <div class="big" id="startTimer">10</div>
 </div>
 
-<!-- PASS SCREEN -->
 <div id="passScreen" class="screen">
   <h1>Pass to Player</h1>
   <div class="big">#<span id="playerNum"></span></div>
   <button onclick="showRole()">REVEAL</button>
 </div>
 
-<!-- ROLE SCREEN -->
 <div id="roleScreen" class="screen">
   <div class="big" id="roleText"></div>
   <p>Memorize</p>
@@ -107,18 +101,47 @@ input[type="range"]{
 
 <script>
 const words = [
-  "Ira",
-  "Boogie",
-  "Heterosexual",
-  "Flea Market",
-  "Gay",
-  "Charlie Kirk",
-  "Airport",
-  "Museum",
-  "Park",
-  "Restaurant",
-  "Mario",
-  "Hippo"
+"Apple","Banana","Orange","Grape","Peach","Pear","Mango","Pineapple","Cherry","Strawberry",
+"Blueberry","Raspberry","Watermelon","Kiwi","Lemon","Lime","Coconut","Papaya","Plum","Apricot",
+
+"Dog","Cat","Mouse","Horse","Cow","Pig","Sheep","Goat","Chicken","Duck",
+"Eagle","Hawk","Falcon","Owl","Parrot","Penguin","Dolphin","Whale","Shark","Octopus",
+
+"Lion","Tiger","Bear","Wolf","Fox","Deer","Moose","Elk","Bison","Buffalo",
+"Zebra","Giraffe","Elephant","Rhino","Hippo","Cheetah","Leopard","Panther","Jaguar","Hyena",
+
+"Mountain","River","Lake","Ocean","Beach","Island","Desert","Forest","Jungle","Valley",
+"Canyon","Hill","Cliff","Volcano","Glacier","Waterfall","Swamp","Marsh","Reef","Bay",
+
+"Car","Truck","Bus","Train","Plane","Helicopter","Boat","Ship","Submarine","Bicycle",
+"Motorcycle","Scooter","Skateboard","Tractor","Ambulance","Firetruck","Taxi","Rocket","Spaceship",
+
+"House","Apartment","Castle","Hut","Cabin","Tent","School","Library","Museum","Hospital",
+"Airport","Station","Stadium","Arena","Theater","Cinema","Restaurant","Cafe","Bakery","Market",
+
+"Chair","Table","Couch","Bed","Desk","Shelf","Lamp","Clock","Mirror","Window",
+"Door","Pillow","Blanket","Curtain","Rug","Drawer","Closet","Cabinet","Fan",
+
+"Phone","Tablet","Laptop","Computer","Keyboard","Mouse","Monitor","Speaker","Headphones","Camera",
+"Microphone","Printer","Router","Console","Controller","Drone","Robot","Battery","Charger",
+
+"Soccer","Basketball","Baseball","Football","Tennis","Hockey","Golf","Cricket","Volleyball","Swimming",
+"Running","Cycling","Skating","Surfing","Skiing","Snowboarding","Climbing","Bowling",
+
+"Red","Blue","Green","Yellow","Purple","Orange","Pink","Brown","Black","White",
+"Gray","Cyan","Teal","Navy","Maroon","Olive","Gold","Silver","Bronze",
+
+"Sun","Moon","Star","Planet","Galaxy","Comet","Asteroid","Meteor","Nebula","Orbit",
+"Satellite","Astronaut","Telescope","Alien","UFO","Mars","Venus","Jupiter",
+
+"Wizard","Knight","Dragon","Goblin","Elf","Dwarf","Sword","Shield","Armor","Potion",
+"Spell","Quest","Treasure","Dungeon","Crown","Throne","Kingdom","Legend",
+
+"Music","Song","Rhythm","Melody","Harmony","Beat","Drums","Guitar","Piano","Violin",
+"Trumpet","Flute","Saxophone","Concert","Album","Playlist",
+
+"Game","Player","Level","Score","Boss","Enemy","Powerup","Health","Inventory","Map",
+"Skill","Upgrade","Achievement","Multiplayer","Singleplayer"
 ];
 
 let players = 3;
@@ -152,7 +175,6 @@ function nextPlayer(){
 
 function showRole(){
   show("roleScreen");
-
   document.getElementById("roleText").textContent =
     currentPlayer === imposterIndex ? "IMPOSTER" : word;
 
@@ -165,7 +187,6 @@ function showRole(){
 function countdown(id, time, done){
   const el = document.getElementById(id);
   el.textContent = time;
-
   const timer = setInterval(() => {
     time--;
     el.textContent = time;
